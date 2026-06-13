@@ -2,13 +2,17 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { scrollToSection } from "@/lib/smoothScroll";
 
 const navLinks = [
-  { label: "Properties", href: "#properties" },
-  { label: "About", href: "#about" },
-  { label: "Gallery", href: "#gallery" },
-  { label: "Agents", href: "#agents" },
-  { label: "Contact", href: "#contact" },
+  { label: "Overview", id: "overview" },
+  { label: "Projects", id: "projects" },
+  { label: "Floor Plans", id: "plans" },
+  { label: "Amenities", id: "amenities" },
+  { label: "Location", id: "location" },
+  { label: "About", id: "about" },
+  { label: "FAQs", id: "faq" },
+  { label: "Contact", id: "contact" },
 ];
 
 export default function Navbar() {
@@ -17,9 +21,9 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 60);
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -27,38 +31,52 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
         scrolled
-          ? "bg-luxury-black/80 backdrop-blur-xl border-b border-luxury-glass-border"
-          : "bg-transparent"
+          ? "bg-luxury-black/85 backdrop-blur-2xl border-b border-white/5"
+          : "bg-gradient-to-b from-black/60 to-transparent"
       }`}
     >
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
-        <div className="flex items-center justify-between h-20 lg:h-24">
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
+        <div className="flex items-center justify-between h-[72px] lg:h-20">
           <a href="#" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-full gold-gradient-bg flex items-center justify-center">
-              <span className="text-luxury-black font-bold text-lg">A</span>
+            <div className="relative">
+              <div className="w-9 h-9 rounded-xl bg-luxury-gold/10 border border-luxury-gold/30 flex items-center justify-center overflow-hidden group-hover:bg-luxury-gold/20 transition-all duration-500">
+                <span className="text-luxury-gold-light font-bold font-serif text-lg tracking-tight">S</span>
+              </div>
+              <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-luxury-gold/40" />
             </div>
-            <span className="font-serif text-xl tracking-[0.15em] text-white">
-              AXION
-            </span>
+            <div className="hidden sm:block">
+              <span className="font-display text-base tracking-[0.08em] text-white leading-none block">
+                Serenity
+              </span>
+              <span className="text-[8px] uppercase tracking-[0.3em] text-luxury-gold-light font-medium leading-none block mt-0.5">
+                Heights
+              </span>
+            </div>
           </a>
 
-          <div className="hidden lg:flex items-center gap-10">
+          <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
-              <a
+              <button
                 key={link.label}
-                href={link.href}
-                className="text-sm tracking-[0.15em] uppercase text-luxury-lightgray/70 hover:text-luxury-gold-light transition-all duration-300 relative group"
+                onClick={() => scrollToSection(link.id)}
+                className="text-[11px] tracking-[0.2em] uppercase text-luxury-gray/80 hover:text-luxury-gold-light transition-all duration-300 relative group py-1"
               >
                 {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-luxury-gold transition-all duration-300 group-hover:w-full" />
-              </a>
+                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-luxury-gold/60 transition-all duration-300 group-hover:w-full" />
+              </button>
             ))}
-            <a
-              href="#contact"
-              className="ml-4 px-6 py-2.5 rounded-full border border-luxury-gold/40 text-luxury-gold-light text-sm tracking-[0.15em] uppercase font-medium hover:bg-luxury-gold/10 transition-all duration-300"
+            <button
+              onClick={() => scrollToSection("contact")}
+              className="ml-2 px-6 py-2.5 rounded-full bg-luxury-gold text-luxury-black text-[10px] uppercase tracking-[0.2em] font-semibold hover:shadow-[0_0_25px_rgba(201,168,76,0.3)] transition-all duration-500"
               data-cursor-hover
             >
-              Get In Touch
+              Book Site Visit
+            </button>
+          </div>
+
+          <div className="hidden sm:flex lg:hidden items-center gap-4">
+            <a href="tel:+919876543210" className="text-xs text-luxury-gold-light tracking-wider">
+              +91 98765 43210
             </a>
           </div>
 
@@ -67,21 +85,9 @@ export default function Navbar() {
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Menu"
           >
-            <span
-              className={`block w-6 h-[1.5px] bg-white transition-all duration-300 ${
-                mobileOpen ? "rotate-45 translate-y-[5.5px]" : ""
-              }`}
-            />
-            <span
-              className={`block w-6 h-[1.5px] bg-white transition-all duration-300 ${
-                mobileOpen ? "opacity-0" : ""
-              }`}
-            />
-            <span
-              className={`block w-6 h-[1.5px] bg-white transition-all duration-300 ${
-                mobileOpen ? "-rotate-45 -translate-y-[5.5px]" : ""
-              }`}
-            />
+            <span className={`block w-5 h-[1.5px] bg-luxury-lightgray transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-[5.5px]" : ""}`} />
+            <span className={`block w-5 h-[1.5px] bg-luxury-lightgray transition-all duration-300 ${mobileOpen ? "opacity-0" : ""}`} />
+            <span className={`block w-5 h-[1.5px] bg-luxury-lightgray transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-[5.5px]" : ""}`} />
           </button>
         </div>
       </div>
@@ -92,30 +98,36 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.4 }}
-            className="lg:hidden bg-luxury-black/95 backdrop-blur-xl border-t border-luxury-glass-border"
+            transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="lg:hidden bg-luxury-black/98 backdrop-blur-2xl border-t border-white/5"
           >
-            <div className="px-6 py-8 flex flex-col gap-6">
+            <div className="px-6 py-8 flex flex-col gap-5">
               {navLinks.map((link, i) => (
-                <motion.a
+                <motion.button
                   key={link.label}
-                  href={link.href}
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -16 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                  onClick={() => setMobileOpen(false)}
-                  className="text-lg tracking-[0.15em] uppercase text-luxury-lightgray/70 hover:text-luxury-gold-light transition-colors"
+                  transition={{ delay: i * 0.04 }}
+                  onClick={() => { scrollToSection(link.id); setMobileOpen(false); }}
+                  className="text-left text-sm tracking-[0.15em] uppercase text-luxury-gray/80 hover:text-luxury-gold-light transition-colors py-2"
                 >
                   {link.label}
-                </motion.a>
+                </motion.button>
               ))}
-              <a
-                href="#contact"
-                onClick={() => setMobileOpen(false)}
-                className="mt-4 px-8 py-3 rounded-full border border-luxury-gold/40 text-luxury-gold-light text-sm tracking-[0.15em] uppercase font-medium text-center hover:bg-luxury-gold/10 transition-all"
-              >
-                Get In Touch
-              </a>
+              <div className="border-t border-white/5 pt-5 mt-2 space-y-3">
+                <button
+                  onClick={() => { scrollToSection("contact"); setMobileOpen(false); }}
+                  className="block w-full text-center px-8 py-3.5 rounded-full bg-luxury-gold text-luxury-black text-xs uppercase tracking-[0.2em] font-semibold"
+                >
+                  Book Site Visit
+                </button>
+                <a
+                  href="tel:+919876543210"
+                  className="block text-center text-sm text-luxury-gold-light"
+                >
+                  +91 98765 43210
+                </a>
+              </div>
             </div>
           </motion.div>
         )}

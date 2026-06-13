@@ -1,26 +1,27 @@
 import Hero from "@/components/Hero";
-import FeaturedProperties from "@/components/FeaturedProperties";
-import PropertyShowcase3D from "@/components/PropertyShowcase3D";
-import WhyChooseUs from "@/components/WhyChooseUs";
-import MarketStats from "@/components/MarketStats";
+import ProjectShowcase from "@/components/ProjectShowcase";
+import Location from "@/components/Location";
+import FloorPlans from "@/components/FloorPlans";
+import Amenities from "@/components/Amenities";
+import About from "@/components/About";
 import Testimonials from "@/components/Testimonials";
-import PropertySearch from "@/components/PropertySearch";
-import AgentProfiles from "@/components/AgentProfiles";
-import LifestyleGallery from "@/components/LifestyleGallery";
+import FAQ from "@/components/FAQ";
 import ContactForm from "@/components/ContactForm";
+import SectionDivider from "@/components/Decorative";
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <FeaturedProperties />
-      <PropertyShowcase3D />
-      <WhyChooseUs />
-      <MarketStats />
+      <ProjectShowcase />
+      <SectionDivider />
+      <Location />
+      <FloorPlans />
+      <Amenities />
+      <About />
       <Testimonials />
-      <PropertySearch />
-      <AgentProfiles />
-      <LifestyleGallery />
+      <SectionDivider />
+      <FAQ />
       <ContactForm />
     </>
   );

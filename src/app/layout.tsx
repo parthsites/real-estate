@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,23 +26,25 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "AXION ESTATES | Luxury Real Estate. Extraordinary Living.",
+  title: "SERENITY HEIGHTS | Premium Living. Pune.",
   description:
-    "Discover the world's most exceptional properties. AXION ESTATES offers unparalleled luxury real estate experiences across the globe's most prestigious locations.",
+    "Experience award-winning luxury residences in the heart of Pune. 2 & 3 BHK premium apartments with world-class amenities. RERA approved.",
   keywords: [
-    "luxury real estate",
-    "premium properties",
-    "luxury homes",
-    "estates",
-    "real estate",
-    "AXION ESTATES",
+    "luxury apartments Pune",
+    "premium homes",
+    "Pune real estate",
+    "2 BHK",
+    "3 BHK",
+    "RERA approved",
+    "luxury living",
+    "Serenity Heights",
   ],
   openGraph: {
-    title: "AXION ESTATES | Luxury Real Estate. Extraordinary Living.",
+    title: "SERENITY HEIGHTS | Premium Living. Pune.",
     description:
-      "Discover the world's most exceptional properties. Premium luxury real estate experiences.",
+      "Award-winning luxury residences in the heart of Pune. Where design meets lifestyle.",
     type: "website",
-    locale: "en_US",
+    locale: "en_IN",
   },
 };
 
@@ -59,9 +62,10 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className="bg-luxury-black text-white font-sans antialiased">
+      <body className="bg-luxury-black text-luxury-lightgray font-sans antialiased">
         <CustomCursor />
         <Navbar />
+        <WhatsAppButton />
         <main>{children}</main>
         <Footer />
       </body>
