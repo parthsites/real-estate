@@ -25,6 +25,12 @@ const amenityImages: Record<string, string> = {
 export default function Amenities() {
   const [selected, setSelected] = useState<string | null>(null);
 
+  const handleCardClick = (name: string) => {
+    if (typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0)) {
+      setSelected(selected === name ? null : name);
+    }
+  };
+
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -69,9 +75,10 @@ export default function Amenities() {
             <motion.div
               key={a.name}
               variants={item}
-              className="group relative overflow-hidden rounded-xl bg-luxury-surface border border-white/5 cursor-none h-[240px]"
+              className="group relative overflow-hidden rounded-xl bg-luxury-surface border border-white/5 h-[240px]"
               onMouseEnter={() => setSelected(a.name)}
               onMouseLeave={() => setSelected(null)}
+              onClick={() => handleCardClick(a.name)}
               data-cursor-hover
             >
               <div className="absolute inset-0 bg-gradient-to-br from-luxury-charcoal to-luxury-black" />

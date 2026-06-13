@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import BackgroundOrbs from "./BackgroundOrbs";
 import { GoldSectionTop, GoldGrid } from "./GoldAccents";
@@ -52,6 +52,7 @@ const scenes = [
 export default function Hero() {
   const [activeScene, setActiveScene] = useState(0);
   const [prevScene, setPrevScene] = useState<number | null>(null);
+  const touchX = useRef(0);
 
   const goToScene = (index: number) => {
     const next = (index + scenes.length) % scenes.length;
@@ -62,6 +63,18 @@ export default function Hero() {
 
   const next = () => goToScene(activeScene + 1);
   const prev = () => goToScene(activeScene - 1);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const diff = touchX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) next();
+      else prev();
+    }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -75,7 +88,12 @@ export default function Hero() {
   }, []);
 
   return (
-    <section id="overview" className="relative h-screen">
+    <section
+      id="overview"
+      className="relative h-screen"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       <GoldSectionTop />
       <div className="absolute inset-0 bg-luxury-black">
         <GoldGrid />
@@ -148,19 +166,27 @@ export default function Hero() {
         </button>
 
         {/* Progress dots */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-1.5">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5">
           {scenes.map((_, i) => (
             <button
               key={i}
               onClick={() => goToScene(i)}
-              className={`h-[2px] rounded-full transition-all duration-500 cursor-pointer ${
-                i === activeScene
-                  ? "bg-luxury-gold w-8"
-                  : i < activeScene
-                  ? "bg-luxury-gold/25 w-5"
-                  : "bg-white/8 w-5"
+              className={`relative cursor-pointer ${
+                i === activeScene ? "w-8" : "w-5"
               }`}
-            />
+              style={{ height: "32px" }}
+              aria-label={`Go to slide ${i + 1}`}
+            >
+              <span
+                className={`absolute top-1/2 left-0 -translate-y-1/2 h-[2px] rounded-full transition-all duration-500 w-full ${
+                  i === activeScene
+                    ? "bg-luxury-gold"
+                    : i < activeScene
+                    ? "bg-luxury-gold/25"
+                    : "bg-white/8"
+                }`}
+              />
+            </button>
           ))}
         </div>
       </div>
