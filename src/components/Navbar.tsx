@@ -108,7 +108,7 @@ export default function Navbar() {
                   initial={{ opacity: 0, x: -16 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.04 }}
-                  onClick={() => { scrollToSection(link.id); setMobileOpen(false); }}
+                  onClick={() => { const id = link.id; setMobileOpen(false); setTimeout(() => scrollToSection(id), 80); }}
                   className="text-left text-sm tracking-[0.15em] uppercase text-luxury-gray/80 hover:text-luxury-gold-light transition-colors py-2"
                 >
                   {link.label}
@@ -116,7 +116,7 @@ export default function Navbar() {
               ))}
               <div className="border-t border-white/5 pt-5 mt-2 space-y-3">
                 <button
-                  onClick={() => { scrollToSection("contact"); setMobileOpen(false); }}
+                  onClick={() => { setMobileOpen(false); setTimeout(() => scrollToSection("contact"), 80); }}
                   className="block w-full text-center px-8 py-3.5 rounded-full bg-luxury-gold text-luxury-black text-xs uppercase tracking-[0.2em] font-semibold"
                 >
                   Book Site Visit
